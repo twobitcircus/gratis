@@ -1,6 +1,39 @@
 # gratis
 ## Branch notes
 
+### Intel Edison support
+
+We've added Intel Edison support using MRAA.  Quick and dirty.
+
+```
+cd PlatformWithOS
+LDFLAGS=-lmraa PANEL_VERSION=V231_G2 make edison
+LDFLAGS=-lmraa PANEL_VERSION=V231_G2 make edison-install
+```
+
+The FUSE support *does* work on Edison, and it's awesome.  However, the supplied python code doesn't seem to work properly...
+
+Try this:
+
+```
+from PIL import Image
+from PIL import ImageDraw
+
+w, h = 264, 176
+
+im = Image.new('1', (w, h), "WHITE")
+pixels = im.load()
+for x in range(w):
+  for y in range(h):
+    pixels[x,y] = (x)%2
+im.save("/tmp/stripes.png")
+with open("/dev/epd/display", "wb") as f:
+  f.write(im.tobytes())
+with open("/dev/epd/command", "w") as f:
+  f.write("U")
+
+```
+
 This branch implements a proper partial update following the algorithm outlined
 in the discussion of issue #19 on the repaper/gratis github repository.
 
