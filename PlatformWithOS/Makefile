@@ -30,6 +30,11 @@ help:
 	@echo '   $(MAKE) bb-install     = install fuse driver in PREFIX'
 	@echo '   $(MAKE) bb-T           = build only target T'
 	@echo
+	@echo Edison
+	@echo '   $(MAKE) edison             = build all targets'
+	@echo '   $(MAKE) edison-install     = install fuse driver in PREFIX'
+	@echo '   $(MAKE) edison-T           = build only target T'
+	@echo
 	@echo Where T is one of:
 	@echo '    all install remove clean'
 	@echo '    epd_test gpio_test epd_fuse'
@@ -89,3 +94,13 @@ bb beaglebone: version-check
 
 bb-%: version-check
 	$(MAKE) PLATFORM=../BeagleBone PANEL_VERSION="${PANEL_VERSION}" EPD_IO="${EPD_IO}" -C driver-common $*
+	
+# Edison targets
+# ------------------------
+
+.PHONY: edison
+edison: version-check
+	$(MAKE) PLATFORM=../Edison PANEL_VERSION="${PANEL_VERSION}" EPD_IO="${EPD_IO}" -C driver-common
+
+edison-%: version-check
+	$(MAKE) PLATFORM=../Edison PANEL_VERSION="${PANEL_VERSION}" EPD_IO="${EPD_IO}" -C driver-common $*
