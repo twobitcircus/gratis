@@ -225,7 +225,7 @@ EPD_type *EPD_create(EPD_size size,
 
 	// an initial default temperature
 	epd->factored_stage_time = epd->base_stage_time;
-	EPD_set_temperature(epd, 25);
+	EPD_set_temperature(epd, 32);
 
 	// buffer for frame line
 	if (epd->middle_scan) {

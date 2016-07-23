@@ -48,9 +48,18 @@ bool GPIO_setup() {
   mraa_init();
   fprintf(stdout, "MRAA Version: %s\n", mraa_get_version());
 
+  spi = mraa_spi_init(0);
+  mraa_spi_mode(spi, MRAA_SPI_MODE3);
+
   mraa_gpio_context pwm_context = mraa_gpio_init(14);
   mraa_gpio_dir(pwm_context, MRAA_GPIO_OUT);
-  mraa_gpio_write(pwm_context, 0);
+  mraa_gpio_write(pwm_context, 1);
+
+  //mraa_gpio_context cs1_context = mraa_gpio_init(9);
+  //mraa_gpio_dir(cs1_context, MRAA_GPIO_OUT);
+  //mraa_gpio_write(cs1_context, 1);
+
+
   return true;
 }
 
@@ -75,14 +84,17 @@ void GPIO_mode(GPIO_pin_type pin, GPIO_mode_type mode) {
   switch (mode) {
   default:
   case GPIO_INPUT:
+    fprintf(stderr, "mode IN\n");
     mraa_gpio_dir(gpio_contexts[pin], MRAA_GPIO_IN);
     break;
 
   case GPIO_OUTPUT:
+    fprintf(stderr, "mode OUT\n");
     mraa_gpio_dir(gpio_contexts[pin], MRAA_GPIO_OUT);
     break;
 
   case GPIO_PWM:  // only certain pins allowed
+    fprintf(stderr, "mode PWM\n");
     // no-op
     break;
   }
